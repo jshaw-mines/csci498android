@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -32,7 +33,9 @@ public class LunchListActivity extends Activity {
     	  adapter=new ArrayAdapter<Restaurant>(this, android.R.layout.simple_spinner_item, model);
     	  list.setAdapter(adapter);
     	  
-    	 
+    	  stringAdapter = new ArrayAdapter<Restaurant>(this, android.R.layout.simple_dropdown_item_1line, model);
+     	  AutoCompleteTextView textView = (AutoCompleteTextView)findViewById(R.id.addr);
+     	  textView.setAdapter(stringAdapter);
     	  }
     
     	private View.OnClickListener onSave=new View.OnClickListener() {
