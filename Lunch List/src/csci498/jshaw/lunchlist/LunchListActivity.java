@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 public class LunchListActivity extends Activity {
@@ -19,27 +20,42 @@ public class LunchListActivity extends Activity {
     	  Button save=(Button)findViewById(R.id.save);    	    
     	  save.setOnClickListener(onSave);
     	  
+    	  RadioGroup types=(RadioGroup)findViewById(R.id.types);
+    	  
+	      RadioButton sit_down = new RadioButton(this);
+	      sit_down.setText(R.string.sit_down);
+	      sit_down.setOnClickListener(radioSelect);
+	      types.addView(sit_down);
+	      
+	      RadioButton take_out = new RadioButton(this);
+	      take_out.setText(R.string.take_out);
+	      take_out.setOnClickListener(radioSelect);
+	      types.addView(sit_down);
+	      
+	      RadioButton delivery = new RadioButton(this);
+	      delivery.setText(R.string.delivery);
+	      delivery.setOnClickListener(radioSelect);
+	      types.addView(delivery);
+    	  
     	  }
-    	private View.OnClickListener onSave=new View.OnClickListener() {
+    
+    	private View.OnClickListener radioSelect = new View.OnClickListener() {
+    		public void onClick(View v){
+    			Button button = (RadioButton) v;
+    			r.setType(button.getText().toString());
+    		}
+    	};
+    
+    	private View.OnClickListener onSave = new View.OnClickListener() {
     	    public void onClick(View v) {
-    	      EditText name=(EditText)findViewById(R.id.name);
-    	      EditText address=(EditText)findViewById(R.id.addr);
+    	      EditText name = (EditText)findViewById(R.id.name);
+    	      EditText address = (EditText)findViewById(R.id.addr);
     	      
     	      r.setName(name.getText().toString());
     	      r.setAddress(address.getText().toString());
     	      
-    	      RadioGroup types=(RadioGroup)findViewById(R.id.types);
-    	      switch (types.getCheckedRadioButtonId()) {
-    	            case R.id.sit_down:
-    	              r.setType("sit_down");
-    	              break;
-    	            case R.id.take_out:
-    	              r.setType("take_out");
-    	              break;
-    	            case R.id.delivery:
-    	              r.setType("delivery");
-    	              break;
-    	          }
+    	      
+    	     
     	    }
     	  };
     }
