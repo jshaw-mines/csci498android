@@ -18,12 +18,14 @@ android:layout_height="match_parent">
     <TableRow>
       	<TextView android:text="Address:" />
 
-      	<AutoCompleteTextView 
-      	    android:id="@+id/addr" 
+      	<EditText
+      	    android:id="@+id/addr"
       	    android:layout_width="wrap_content"
       	    android:layout_height="wrap_content"
-      	    android:ems="10" 
-      	    android:completionThreshold="1"/>
+      	    android:ems="10" >
+
+      	    <requestFocus />
+      	</EditText>
     </TableRow>
     
     <TableRow>        
@@ -49,11 +51,12 @@ android:layout_height="match_parent">
 	
   </TableLayout>
 
-  <Spinner
+  <ListView
       android:id="@+id/restaurants"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_alignParentLeft="true"
-      android:layout_alignParentTop="true"/>
+      android:layout_alignParentTop="true"
+      android:layout_above="@id/details" />
 
 </RelativeLayout>

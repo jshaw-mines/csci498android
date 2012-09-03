@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -17,8 +16,7 @@ import android.widget.Spinner;
 public class LunchListActivity extends Activity {
     /** Called when the activity is first created. */
 	List<Restaurant> model=new ArrayList<Restaurant>();
-	ArrayAdapter<Restaurant> adapter=null;
-	ArrayAdapter<Restaurant> stringAdapter=null;
+	RestaurantAdapter adapter=null;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {   	    
@@ -28,14 +26,12 @@ public class LunchListActivity extends Activity {
     	  Button save=(Button)findViewById(R.id.save);    	    
     	  save.setOnClickListener(onSave);
     	  
-    	  Spinner list=(Spinner)findViewById(R.id.restaurants);
+    	  ListView list=(ListView)findViewById(R.id.restaurants);
     	    
-    	  adapter=new ArrayAdapter<Restaurant>(this, android.R.layout.simple_spinner_item, model);
+    	  adapter = new RestaurantAdapter();
     	  list.setAdapter(adapter);
     	  
-    	  stringAdapter = new ArrayAdapter<Restaurant>(this, android.R.layout.simple_dropdown_item_1line, model);
-     	  AutoCompleteTextView textView = (AutoCompleteTextView)findViewById(R.id.addr);
-     	  textView.setAdapter(stringAdapter);
+    	 
     	  }
     
     	private View.OnClickListener onSave=new View.OnClickListener() {
@@ -63,4 +59,10 @@ public class LunchListActivity extends Activity {
     	      adapter.add(r);
     	    }
     	  };
+    	  
+    	  public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
+    			RestaurantAdapter() {
+    		    super(LunchListActivity.this, android.R.layout.simple_list_item_1, model);
+    		  }
+    	}
     }
