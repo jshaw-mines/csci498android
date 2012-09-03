@@ -1,16 +1,23 @@
 package csci498.jshaw.lunchlist;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
+import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 
 public class LunchListActivity extends Activity {
     /** Called when the activity is first created. */
-	Restaurant r=new Restaurant();
+	List<Restaurant> model=new ArrayList<Restaurant>();
+	ArrayAdapter<Restaurant> adapter=null;
+	ArrayAdapter<Restaurant> stringAdapter=null;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {   	    
@@ -20,42 +27,37 @@ public class LunchListActivity extends Activity {
     	  Button save=(Button)findViewById(R.id.save);    	    
     	  save.setOnClickListener(onSave);
     	  
-    	  RadioGroup types=(RadioGroup)findViewById(R.id.types);
+    	  ListView list=(ListView)findViewById(R.id.restaurants);
+    	    
+    	  adapter=new ArrayAdapter<Restaurant>(this, android.R.layout.simple_list_item_1, model);
+    	  list.setAdapter(adapter);
     	  
-	      RadioButton sit_down = new RadioButton(this);
-	      sit_down.setText(R.string.sit_down);
-	      sit_down.setOnClickListener(radioSelect);
-	      types.addView(sit_down);
-	      
-	      RadioButton take_out = new RadioButton(this);
-	      take_out.setText(R.string.take_out);
-	      take_out.setOnClickListener(radioSelect);
-	      types.addView(sit_down);
-	      
-	      RadioButton delivery = new RadioButton(this);
-	      delivery.setText(R.string.delivery);
-	      delivery.setOnClickListener(radioSelect);
-	      types.addView(delivery);
-    	  
+    	 
     	  }
     
-    	private View.OnClickListener radioSelect = new View.OnClickListener() {
-    		public void onClick(View v){
-    			Button button = (RadioButton) v;
-    			r.setType(button.getText().toString());
-    		}
-    	};
-    
-    	private View.OnClickListener onSave = new View.OnClickListener() {
+    	private View.OnClickListener onSave=new View.OnClickListener() {
     	    public void onClick(View v) {
-    	      EditText name = (EditText)findViewById(R.id.name);
-    	      EditText address = (EditText)findViewById(R.id.addr);
+    	      Restaurant r=new Restaurant();
+    	      EditText name=(EditText)findViewById(R.id.name);
+    	      EditText address=(EditText)findViewById(R.id.addr);
     	      
     	      r.setName(name.getText().toString());
     	      r.setAddress(address.getText().toString());
     	      
+    	      RadioGroup types=(RadioGroup)findViewById(R.id.types);
+    	      switch (types.getCheckedRadioButtonId()) {
+    	            case R.id.sit_down:
+    	              r.setType("sit_down");
+    	              break;
+    	            case R.id.take_out:
+    	              r.setType("take_out");
+    	              break;
+    	            case R.id.delivery:
+    	              r.setType("delivery");
+    	              break;
+    	          }
     	      
-    	     
+    	      adapter.add(r);
     	    }
     	  };
     }
