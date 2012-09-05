@@ -83,6 +83,7 @@ public class LunchListActivity extends Activity {
     					  }
     					  
     					  holder.populateFrom(model.get(position));
+    					  
     					return(row);
     			}
     	  }
