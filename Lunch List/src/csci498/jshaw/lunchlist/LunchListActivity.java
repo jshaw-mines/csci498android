@@ -56,7 +56,7 @@ public class LunchListActivity extends TabActivity {
     	  
     	  getTabHost().setCurrentTab(0);
     	  
-    	  list.setOnItemClickListener(onListClick);
+    	  list.setOnItemClickListener(onListClick);    	 
     	  }
     
     	private View.OnClickListener onSave=new View.OnClickListener() {
@@ -154,6 +154,8 @@ public class LunchListActivity extends TabActivity {
     			        else {
     			          types.check(R.id.delivery);
     			        }
+    			        
+    			        getTabHost().setCurrentTab(1);
     			    }
     	  };
 }
