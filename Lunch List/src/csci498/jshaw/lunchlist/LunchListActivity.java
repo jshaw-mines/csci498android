@@ -1,6 +1,8 @@
 package csci498.jshaw.lunchlist;
 
 import java.util.ArrayList;
+import java.util.Date;
+
 import android.app.TabActivity;
 import android.widget.TabHost;
 import android.widget.AdapterView;
@@ -11,12 +13,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.*;
 
 public class LunchListActivity extends TabActivity {
@@ -64,9 +60,11 @@ public class LunchListActivity extends TabActivity {
     	      Restaurant r=new Restaurant();
     	      EditText name=(EditText)findViewById(R.id.name);
     	      EditText address=(EditText)findViewById(R.id.addr);
+    	      DatePicker date=(DatePicker)findViewById(R.id.date);
     	      
     	      r.setName(name.getText().toString());
     	      r.setAddress(address.getText().toString());
+    	      r.setDate(date.getDayOfMonth());
     	      
     	      RadioGroup types=(RadioGroup)findViewById(R.id.types);
     	      switch (types.getCheckedRadioButtonId()) {
@@ -113,17 +111,20 @@ public class LunchListActivity extends TabActivity {
     	  static class RestaurantHolder {
     		  private TextView name=null;
     		  private TextView address=null;
+    		  private TextView date=null;
     		  private ImageView icon=null;
     		  
     		  RestaurantHolder(View row) {
     			  name=(TextView)row.findViewById(R.id.title);
     			  address=(TextView)row.findViewById(R.id.address);
+    			  date=(TextView)row.findViewById(R.id.day);
     			  icon=(ImageView)row.findViewById(R.id.icon);
     		  }
     		  
     		  void populateFrom(Restaurant r) {
     			  name.setText(r.getName());
     			  address.setText(r.getAddress());
+    			  date.setText(r.getDate());
     			  
     			  if (r.getType().equals("sit_down")) {
     			      icon.setImageResource(R.drawable.sit_down);

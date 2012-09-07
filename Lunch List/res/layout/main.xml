@@ -20,8 +20,7 @@
       		
       		<ListView android:id="@+id/restaurants"
        			android:layout_width="match_parent"
-        		android:layout_height="match_parent"/>
-      		
+        		android:layout_height="match_parent"/>	
       <TableLayout android:id="@+id/details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,6 +35,10 @@
         <TableRow>
           <TextView android:text="Address:" />
           <EditText android:id="@+id/addr" />
+        </TableRow>
+        <TableRow >
+            <TextView android:text="Date"/>
+            <DatePicker android:id="@+id/date" />
         </TableRow>
         <TableRow>
           <TextView android:text="Type:" />
