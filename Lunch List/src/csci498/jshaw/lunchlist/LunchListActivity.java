@@ -1,6 +1,8 @@
 package csci498.jshaw.lunchlist;
 
 import java.util.ArrayList;
+import android.app.TabActivity;
+import android.widget.TabHost;
 import java.util.List;
 
 import android.app.Activity;
@@ -16,7 +18,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.*;
 
-public class LunchListActivity extends Activity {
+public class LunchListActivity extends TabActivity {
     /** Called when the activity is first created. */
 	List<Restaurant> model=new ArrayList<Restaurant>();
 	RestaurantAdapter adapter=null;
@@ -34,7 +36,17 @@ public class LunchListActivity extends Activity {
     	  adapter = new RestaurantAdapter();
     	  list.setAdapter(adapter);
     	  
-    	 
+    	  TabHost.TabSpec spec=getTabHost().newTabSpec("tag1");   	  
+    	  spec.setContent(R.id.restaurants);
+    	  spec.setIndicator("List", getResources().getDrawable(R.drawable.list));
+    	  getTabHost().addTab(spec);
+    	  
+    	  spec=getTabHost().newTabSpec("tag2");
+    	  spec.setContent(R.id.details);
+    	  spec.setIndicator("Details", getResources().getDrawable(R.drawable.restaurant));    	  
+    	  getTabHost().addTab(spec);
+    	  
+    	  getTabHost().setCurrentTab(0);
     	  }
     
     	private View.OnClickListener onSave=new View.OnClickListener() {
