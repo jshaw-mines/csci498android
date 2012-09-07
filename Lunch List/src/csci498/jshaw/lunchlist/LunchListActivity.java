@@ -3,6 +3,7 @@ package csci498.jshaw.lunchlist;
 import java.util.ArrayList;
 import android.app.TabActivity;
 import android.widget.TabHost;
+import android.widget.AdapterView;
 import java.util.List;
 
 import android.app.Activity;
@@ -22,6 +23,9 @@ public class LunchListActivity extends TabActivity {
     /** Called when the activity is first created. */
 	List<Restaurant> model=new ArrayList<Restaurant>();
 	RestaurantAdapter adapter=null;
+	EditText name=null;
+	EditText address=null;
+	RadioGroup types=null;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {   	    
@@ -32,6 +36,10 @@ public class LunchListActivity extends TabActivity {
     	  save.setOnClickListener(onSave);
     	  
     	  ListView list=(ListView)findViewById(R.id.restaurants);
+    	  
+    	  name=(EditText)findViewById(R.id.name);
+    	  address=(EditText)findViewById(R.id.addr);
+    	  types=(RadioGroup)findViewById(R.id.types);
     	    
     	  adapter = new RestaurantAdapter();
     	  list.setAdapter(adapter);
@@ -47,6 +55,8 @@ public class LunchListActivity extends TabActivity {
     	  getTabHost().addTab(spec);
     	  
     	  getTabHost().setCurrentTab(0);
+    	  
+    	  list.setOnItemClickListener(onListClick);
     	  }
     
     	private View.OnClickListener onSave=new View.OnClickListener() {
@@ -126,4 +136,11 @@ public class LunchListActivity extends TabActivity {
     			    }
     		  }
     	  }
+    	  
+    	  private AdapterView.OnItemClickListener onListClick=new
+    			  AdapterView.OnItemClickListener() {
+    			    public void onItemClick(AdapterView<?> parent,View view, int position, long id) {
+    			    	
+    			    }
+    	  };
 }
