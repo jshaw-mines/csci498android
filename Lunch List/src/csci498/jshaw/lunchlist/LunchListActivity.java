@@ -9,14 +9,9 @@ import java.util.List;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.*;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.*;
 
 public class LunchListActivity extends TabActivity {
@@ -163,4 +158,11 @@ public class LunchListActivity extends TabActivity {
     			        getTabHost().setCurrentTab(1);
     			    }
     	  };
+    	  
+    	  @Override
+    	  public boolean onCreateOptionsMenu(Menu menu) {
+    	    new MenuInflater(this).inflate(R.menu.option, menu);
+    	    
+    	    return(super.onCreateOptionsMenu(menu));
+    	  }
 }
