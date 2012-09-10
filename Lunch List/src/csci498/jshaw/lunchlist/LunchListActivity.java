@@ -3,13 +3,14 @@ package csci498.jshaw.lunchlist;
 import java.util.ArrayList;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.TabActivity;
 import android.widget.TabHost;
 import android.widget.AdapterView;
 import java.util.List;
-
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
 
@@ -22,6 +23,7 @@ public class LunchListActivity extends TabActivity {
 	EditText note=null;
 	RadioGroup types=null;
 	Restaurant current=null;
+	AlertDialog error=null;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {   	    
@@ -53,7 +55,9 @@ public class LunchListActivity extends TabActivity {
     	  
     	  getTabHost().setCurrentTab(0);
     	  
-    	  list.setOnItemClickListener(onListClick);    	 
+    	  list.setOnItemClickListener(onListClick);
+    	  
+    	  
     	  }
     
     	private View.OnClickListener onSave=new View.OnClickListener() {
@@ -81,7 +85,20 @@ public class LunchListActivity extends TabActivity {
     	          }
     	      
     	      adapter.add(current);
+    	      
+    	      try {
+        		  int t = 1/0;
+        	  }
+        	  catch (Exception e)
+        	  {
+        		  Log.e("Division by 0", "Okay, who da f did that");
+        		  error = new AlertDialog.Builder(v.getContext()).create();
+        		  error.setTitle("ERROR!!!!");
+        		  error.setMessage("Some guy tried to divide by 0....");
+        		  error.show();
+        	  }
     	    }
+    	    
     	  };
     	  
     	  public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
