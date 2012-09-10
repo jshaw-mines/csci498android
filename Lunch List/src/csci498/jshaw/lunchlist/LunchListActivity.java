@@ -1,6 +1,8 @@
 package csci498.jshaw.lunchlist;
 
 import java.util.ArrayList;
+
+import android.app.AlertDialog;
 import android.app.TabActivity;
 import android.widget.TabHost;
 import android.widget.AdapterView;
@@ -8,10 +10,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.*;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.*;
 
 public class LunchListActivity extends TabActivity {
@@ -177,7 +176,10 @@ public class LunchListActivity extends TabActivity {
     	    		message=current.getNote();
     	    	}
     	      
-    	    	Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    	    	AlertDialog alert = new AlertDialog.Builder(this).create();
+    	    	alert.setTitle("This does nothing.");
+    	    	alert.setMessage("Sit there and dont do anything");
+    	    	alert.show();
     	    	return(true);
     	    }
     		  
