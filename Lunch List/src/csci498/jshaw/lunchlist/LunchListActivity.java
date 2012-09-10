@@ -178,10 +178,15 @@ public class LunchListActivity extends TabActivity {
     	      
     	    	AlertDialog alert = new AlertDialog.Builder(this).create();
     	    	alert.setTitle("This does nothing.");
-    	    	alert.setMessage("Sit there and dont do anything");
+    	    	alert.setMessage(message);
     	    	alert.show();
     	    	return(true);
     	    }
+    		 if (item.getItemId()==R.id.switch_view)
+    		 {		 
+    			 getTabHost().setCurrentTab((getTabHost().getCurrentTab()+1)%2);
+    			 
+    		 }
     		  
     	  return(super.onOptionsItemSelected(item));
     	  }
