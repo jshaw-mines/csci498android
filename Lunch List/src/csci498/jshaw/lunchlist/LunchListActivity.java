@@ -26,6 +26,7 @@ public class LunchListActivity extends TabActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {   	    
     	  super.onCreate(savedInstanceState);
+    	  requestWindowFeature(Window.FEATURE_PROGRESS);
     	  setContentView(R.layout.main);
     	  
     	  Button save=(Button)findViewById(R.id.save);    	    
@@ -178,22 +179,50 @@ public class LunchListActivity extends TabActivity {
     	      
     	    	Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     	    	return(true);
-    	    }
+    		  	}
+    		  
+    		  if (item.getItemId()==R.id.long_work)
+    		  {
+    			  setProgressBarVisibility(true);
+    			  progress=0;
+    			  new Thread(longTask).start();
+    			  
+    			  return(true);
+    		  }
+    			  
     		  
     	  return(super.onOptionsItemSelected(item));
     	  }
     	  
     	  private void doSomething(final int incr) {
-    		  SystemClock.sleep(incr);
+    		  runOnUiThread(new Runnable (){
+				@Override
+				public void run() {
+					progress+=incr;
+					setProgress(progress);
+				}
+    			  
+    		  });
+    		  SystemClock.sleep(250);
     	  }
     	  
     	  private Runnable longTask = new Runnable() {
     		 @Override
-    		  public void run(){
+    		  public void run()
+    		 {
     			  for (int i=0; i<20; i++)
     			  {
     				  doSomething(500);
     			  }
+    			  
+    			  runOnUiThread(new Runnable() {
+    	    			 public void run() {
+    	    				 setProgressBarVisibility(false);
+    	    			 }
+    	    		 });
     		  }
+    		 
+    		 
+    		 
     	  };
 }
