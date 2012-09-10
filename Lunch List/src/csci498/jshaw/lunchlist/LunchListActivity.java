@@ -25,6 +25,7 @@ public class LunchListActivity extends TabActivity {
 	RestaurantAdapter adapter=null;
 	EditText name=null;
 	EditText address=null;
+	EditText note=null;
 	RadioGroup types=null;
 	
     @Override
@@ -40,6 +41,7 @@ public class LunchListActivity extends TabActivity {
     	  name=(EditText)findViewById(R.id.name);
     	  address=(EditText)findViewById(R.id.addr);
     	  types=(RadioGroup)findViewById(R.id.types);
+    	  note=(EditText)findViewById(R.id.notes);
     	    
     	  adapter = new RestaurantAdapter();
     	  list.setAdapter(adapter);
@@ -64,9 +66,11 @@ public class LunchListActivity extends TabActivity {
     	      Restaurant r=new Restaurant();
     	      EditText name=(EditText)findViewById(R.id.name);
     	      EditText address=(EditText)findViewById(R.id.addr);
+    	      EditText note=(EditText)findViewById(R.id.notes);
     	      
     	      r.setName(name.getText().toString());
     	      r.setAddress(address.getText().toString());
+    	      r.setNote(note.getText().toString());
     	      
     	      RadioGroup types=(RadioGroup)findViewById(R.id.types);
     	      switch (types.getCheckedRadioButtonId()) {
@@ -139,11 +143,12 @@ public class LunchListActivity extends TabActivity {
     	  
     	  private AdapterView.OnItemClickListener onListClick=new AdapterView.OnItemClickListener() {
     		  
-    			    public void onItemClick(AdapterView<?> parent,View view, int position, long id) {
+    			    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
     			    	Restaurant r=model.get(position);
     			        
     			        name.setText(r.getName());
     			        address.setText(r.getAddress());
+    			        note.setText(r.getNote());
     			        
     			        if (r.getType().equals("sit_down")) {
     			          types.check(R.id.sit_down);
