@@ -1,19 +1,17 @@
 package csci498.jshaw.lunchlist;
 
-import java.util.Date;
-
 public class Restaurant {
   private String name="";
   private String address="";
   private String type="";
-  private int date;
+  private String note="";
   
-public int getDate() {
-	return date;
+public String getNote() {
+	return note;
 }
 
-public void setDate(int date) {
-	this.date = date;
+public void setNote(String note) {
+	this.note = note;
 }
 
 public String getName() {
@@ -43,6 +41,4 @@ public void setType(String type) {
 public String toString() {
 	  return(getName());
 }
-
-
 }
