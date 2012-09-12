@@ -60,8 +60,6 @@ android:layout_height="match_parent">
             android:layout_height="wrap_content"
             android:text="Save"
           />
-          <TextView android:id="@+id/done"
-              android:text="NOT-DONE"/>              
         </TableLayout>
       </ScrollView>
     </FrameLayout>

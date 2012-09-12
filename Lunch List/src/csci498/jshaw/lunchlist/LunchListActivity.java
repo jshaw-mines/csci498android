@@ -5,11 +5,10 @@ import android.app.TabActivity;
 import android.widget.TabHost;
 import android.widget.AdapterView;
 import java.util.List;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.SystemClock;
 import android.view.*;
 import android.widget.*;
@@ -23,9 +22,7 @@ public class LunchListActivity extends TabActivity {
 	EditText note=null;
 	RadioGroup types=null;
 	Restaurant current=null;
-	Handler handler;
-	Thread thread;
-	LinkedBlockingQueue jobs;
+	AtomicBoolean isActive= new AtomicBoolean(true);
 	int progress;
 	
     @Override
@@ -33,10 +30,6 @@ public class LunchListActivity extends TabActivity {
     	  super.onCreate(savedInstanceState);
     	  requestWindowFeature(Window.FEATURE_PROGRESS);
     	  setContentView(R.layout.main);
-    	  
-    	  handler = new Handler();
-    	  jobs.add(fakeJob);
-    	  jobs.add(killJob);
     	  
     	  Button save=(Button)findViewById(R.id.save);    	    
     	  save.setOnClickListener(onSave);
@@ -63,16 +56,7 @@ public class LunchListActivity extends TabActivity {
     	  
     	  getTabHost().setCurrentTab(0);
     	  
-    	  list.setOnItemClickListener(onListClick);
-    	  
-    	  while(!jobs.isEmpty() && !thread.isAlive())
-    	  {
-    		  try {
-				thread = new Thread((Runnable)jobs.take());
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-    	  }
+    	  list.setOnItemClickListener(onListClick);    	 
     	  }
     
     	private View.OnClickListener onSave=new View.OnClickListener() {
@@ -201,9 +185,8 @@ public class LunchListActivity extends TabActivity {
     		  
     		  if (item.getItemId()==R.id.long_work)
     		  {
-    			  setProgressBarVisibility(true);
-    			  progress=0;
-    			  new Thread(fakeJob).start();
+    			  startWork();
+    			  
     			  return(true);
     		  }
     			  
@@ -212,7 +195,7 @@ public class LunchListActivity extends TabActivity {
     	  }
     	  
     	  private void doSomething(final int incr) {
-    		  handler.post(new Runnable (){
+    		  runOnUiThread(new Runnable (){
 				@Override
 				public void run() {
 					progress+=incr;
@@ -223,33 +206,52 @@ public class LunchListActivity extends TabActivity {
     		  SystemClock.sleep(250);
     	  }
     	  
-    	  private Runnable fakeJob = new Runnable() {
+    	  private Runnable longTask = new Runnable() {
     		 @Override
     		  public void run()
     		 {
-    			  for (int i=0; i<20; i++)
+    			  for (int i=0; i<10000 && isActive.get(); i+=200)
     			  {
-    				  doSomething(500);
+    				  doSomething(200);
     			  }
     			  
-    			  handler.post(new Runnable() {
+    			  if(isActive.get()) {
+    				  runOnUiThread(new Runnable() {
     	    			 public void run() {
-    	    				 setProgressBarVisibility(false);    	    				
-    	    				 TextView done = (TextView)findViewById(R.id.done);
-    	    				 done.setText("DONE :D");
+    	    				 setProgressBarVisibility(false);
+    	    				 progress=0;
     	    			 }
-    	    		 });
+    	    		 });}
     		  }
     		 
     		 
     		 
     	  };
     	  
-    	  private Runnable killJob = new Runnable() {
-    		  @Override
-    		  public void run()
+    	  private void startWork()
+    	  {
+    		  setProgressBarVisibility(true);
+    		  new Thread(longTask).start();
+    	  }
+    	  
+    	  @Override
+    	  public void onResume()
+    	  {
+    		  super.onResume();
+    		  
+    		  isActive.set(true);
+    		  
+    		  if(progress>0)
     		  {
-    			  thread.interrupt();
+    			  startWork();
     		  }
-    	  };
+    	  }
+    	  
+    	  @Override
+    	  public void onPause()
+    	  {
+    		  super.onPause();
+    		  
+    		  isActive.set(false);
+    	  }
 }
