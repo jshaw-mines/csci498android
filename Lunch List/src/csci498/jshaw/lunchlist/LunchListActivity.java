@@ -257,7 +257,26 @@ public class LunchListActivity extends TabActivity {
     		  isActive.set(false);
     	  }
     	  
-    	 
+    	  @Override
+    	  public void onStart()
+    	  {
+    		  super.onStart();
+    		  
+    		  isActive.set(true);
+    		  
+    		  if(progress>0)
+    		  {
+    			  startWork();
+    		  }
+    	  }
+    	  
+    	  @Override
+    	  public void onStop()
+    	  {
+    		  super.onStart();
+    		  
+    		  isActive.set(false);
+    	  }
     	  
     	  @Override
     	  public void onSaveInstanceState(Bundle savedInstanceState)
