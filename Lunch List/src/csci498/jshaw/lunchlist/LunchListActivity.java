@@ -31,6 +31,11 @@ public class LunchListActivity extends TabActivity {
     	  requestWindowFeature(Window.FEATURE_PROGRESS);
     	  setContentView(R.layout.main);
     	  
+    	  if(progress>0)
+    	  {
+    		  startWork();
+    	  }
+    	  
     	  Button save=(Button)findViewById(R.id.save);    	    
     	  save.setOnClickListener(onSave);
     	  
@@ -223,10 +228,7 @@ public class LunchListActivity extends TabActivity {
     	    			 }
     	    		 });}
     		  }
-    		 
-    		 
-    		 
-    	  };
+    		 };
     	  
     	  private void startWork()
     	  {
@@ -253,5 +255,21 @@ public class LunchListActivity extends TabActivity {
     		  super.onPause();
     		  
     		  isActive.set(false);
+    	  }
+    	  
+    	 
+    	  
+    	  @Override
+    	  public void onSaveInstanceState(Bundle savedInstanceState)
+    	  {
+    		  super.onSaveInstanceState(savedInstanceState);
+    		  savedInstanceState.putInt("Progress", progress);
+    	  }
+    	  
+    	  @Override
+    	  public void onRestoreInstanceState(Bundle savedInstanceState)
+    	  {
+    		  super.onRestoreInstanceState(savedInstanceState);
+    		  progress = savedInstanceState.getInt("Progress");
     	  }
 }
