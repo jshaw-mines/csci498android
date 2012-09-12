@@ -13,13 +13,14 @@ import android.os.SystemClock;
 import android.view.*;
 import android.widget.*;
 
-public class LunchListActivity extends TabActivity {
+public class LunchListActivity extends Activity {
     /** Called when the activity is first created. */
 	List<Restaurant> model=new ArrayList<Restaurant>();
 	RestaurantAdapter adapter=null;
 	EditText name=null;
 	EditText address=null;
 	EditText note=null;
+	TabHost tabs;
 	RadioGroup types=null;
 	Restaurant current=null;
 	AtomicBoolean isActive= new AtomicBoolean(true);
@@ -36,7 +37,9 @@ public class LunchListActivity extends TabActivity {
     		  startWork();
     	  }
     	  
-    	  Button save=(Button)findViewById(R.id.save);    	    
+    	  Button save=(Button)findViewById(R.id.save);
+    	  tabs = (TabHost)findViewById(R.id.tabhost);
+    	  tabs.setup();
     	  save.setOnClickListener(onSave);
     	  
     	  ListView list=(ListView)findViewById(R.id.restaurants);
@@ -49,17 +52,17 @@ public class LunchListActivity extends TabActivity {
     	  adapter = new RestaurantAdapter();
     	  list.setAdapter(adapter);
     	  
-    	  TabHost.TabSpec spec=getTabHost().newTabSpec("tag1");   	  
+    	  TabHost.TabSpec spec=tabs.newTabSpec("tag1");   	  
     	  spec.setContent(R.id.restaurants);
     	  spec.setIndicator("List", getResources().getDrawable(R.drawable.list));
-    	  getTabHost().addTab(spec);
+    	  tabs.addTab(spec);
     	  
-    	  spec=getTabHost().newTabSpec("tag2");
+    	  spec=tabs.newTabSpec("tag2");
     	  spec.setContent(R.id.details);
     	  spec.setIndicator("Details", getResources().getDrawable(R.drawable.restaurant));    	  
-    	  getTabHost().addTab(spec);
+    	  tabs.addTab(spec);
     	  
-    	  getTabHost().setCurrentTab(0);
+    	  tabs.setCurrentTab(0);
     	  
     	  list.setOnItemClickListener(onListClick);    	 
     	  }
@@ -163,7 +166,7 @@ public class LunchListActivity extends TabActivity {
     			          types.check(R.id.delivery);
     			        }
     			        
-    			        getTabHost().setCurrentTab(1);
+    			        tabs.setCurrentTab(1);
     			    }
     	  };
     	  
