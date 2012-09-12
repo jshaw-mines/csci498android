@@ -8,6 +8,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.view.*;
 import android.widget.*;
@@ -21,6 +22,7 @@ public class LunchListActivity extends TabActivity {
 	EditText note=null;
 	RadioGroup types=null;
 	Restaurant current=null;
+	Handler handler;
 	int progress;
 	
     @Override
@@ -29,6 +31,7 @@ public class LunchListActivity extends TabActivity {
     	  requestWindowFeature(Window.FEATURE_PROGRESS);
     	  setContentView(R.layout.main);
     	  
+    	  handler = new Handler();
     	  Button save=(Button)findViewById(R.id.save);    	    
     	  save.setOnClickListener(onSave);
     	  
@@ -194,7 +197,7 @@ public class LunchListActivity extends TabActivity {
     	  }
     	  
     	  private void doSomething(final int incr) {
-    		  runOnUiThread(new Runnable (){
+    		  handler.post(new Runnable (){
 				@Override
 				public void run() {
 					progress+=incr;
@@ -214,7 +217,7 @@ public class LunchListActivity extends TabActivity {
     				  doSomething(500);
     			  }
     			  
-    			  runOnUiThread(new Runnable() {
+    			  handler.post(new Runnable() {
     	    			 public void run() {
     	    				 setProgressBarVisibility(false);    	    				
     	    				 TextView done = (TextView)findViewById(R.id.done);
