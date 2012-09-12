@@ -186,7 +186,8 @@ public class LunchListActivity extends TabActivity {
     			  setProgressBarVisibility(true);
     			  progress=0;
     			  new Thread(longTask).start();
-    			  
+    			  TextView done = (TextView)findViewById(R.id.done);
+    			  done.setText("DONE :D");
     			  return(true);
     		  }
     			  
