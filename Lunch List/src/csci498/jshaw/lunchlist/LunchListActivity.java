@@ -5,6 +5,7 @@ import android.app.TabActivity;
 import android.widget.TabHost;
 import android.widget.AdapterView;
 import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ public class LunchListActivity extends TabActivity {
 	RadioGroup types=null;
 	Restaurant current=null;
 	Handler handler;
+	Thread thread;
+	LinkedBlockingQueue jobs;
 	int progress;
 	
     @Override
@@ -32,6 +35,9 @@ public class LunchListActivity extends TabActivity {
     	  setContentView(R.layout.main);
     	  
     	  handler = new Handler();
+    	  jobs.add(fakeJob);
+    	  jobs.add(killJob);
+    	  
     	  Button save=(Button)findViewById(R.id.save);    	    
     	  save.setOnClickListener(onSave);
     	  
@@ -57,7 +63,16 @@ public class LunchListActivity extends TabActivity {
     	  
     	  getTabHost().setCurrentTab(0);
     	  
-    	  list.setOnItemClickListener(onListClick);    	 
+    	  list.setOnItemClickListener(onListClick);
+    	  
+    	  while(!jobs.isEmpty() && !thread.isAlive())
+    	  {
+    		  try {
+				thread = new Thread((Runnable)jobs.take());
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+    	  }
     	  }
     
     	private View.OnClickListener onSave=new View.OnClickListener() {
@@ -188,7 +203,7 @@ public class LunchListActivity extends TabActivity {
     		  {
     			  setProgressBarVisibility(true);
     			  progress=0;
-    			  new Thread(longTask).start();
+    			  new Thread(fakeJob).start();
     			  return(true);
     		  }
     			  
@@ -208,7 +223,7 @@ public class LunchListActivity extends TabActivity {
     		  SystemClock.sleep(250);
     	  }
     	  
-    	  private Runnable longTask = new Runnable() {
+    	  private Runnable fakeJob = new Runnable() {
     		 @Override
     		  public void run()
     		 {
@@ -228,5 +243,13 @@ public class LunchListActivity extends TabActivity {
     		 
     		 
     		 
+    	  };
+    	  
+    	  private Runnable killJob = new Runnable() {
+    		  @Override
+    		  public void run()
+    		  {
+    			  thread.interrupt();
+    		  }
     	  };
 }
