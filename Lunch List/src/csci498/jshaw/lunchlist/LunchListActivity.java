@@ -13,14 +13,13 @@ import android.os.SystemClock;
 import android.view.*;
 import android.widget.*;
 
-public class LunchListActivity extends Activity {
+public class LunchListActivity extends TabActivity {
     /** Called when the activity is first created. */
 	List<Restaurant> model=new ArrayList<Restaurant>();
 	RestaurantAdapter adapter=null;
 	EditText name=null;
 	EditText address=null;
 	EditText note=null;
-	TabHost tabs;
 	RadioGroup types=null;
 	Restaurant current=null;
 	AtomicBoolean isActive= new AtomicBoolean(true);
@@ -37,9 +36,7 @@ public class LunchListActivity extends Activity {
     		  startWork();
     	  }
     	  
-    	  Button save=(Button)findViewById(R.id.save);
-    	  tabs = (TabHost)findViewById(R.id.tabhost);
-    	  tabs.setup();
+    	  Button save=(Button)findViewById(R.id.save);    	    
     	  save.setOnClickListener(onSave);
     	  
     	  ListView list=(ListView)findViewById(R.id.restaurants);
@@ -52,17 +49,17 @@ public class LunchListActivity extends Activity {
     	  adapter = new RestaurantAdapter();
     	  list.setAdapter(adapter);
     	  
-    	  TabHost.TabSpec spec=tabs.newTabSpec("tag1");   	  
+    	  TabHost.TabSpec spec=getTabHost().newTabSpec("tag1");   	  
     	  spec.setContent(R.id.restaurants);
     	  spec.setIndicator("List", getResources().getDrawable(R.drawable.list));
-    	  tabs.addTab(spec);
+    	  getTabHost().addTab(spec);
     	  
-    	  spec=tabs.newTabSpec("tag2");
+    	  spec=getTabHost().newTabSpec("tag2");
     	  spec.setContent(R.id.details);
     	  spec.setIndicator("Details", getResources().getDrawable(R.drawable.restaurant));    	  
-    	  tabs.addTab(spec);
+    	  getTabHost().addTab(spec);
     	  
-    	  tabs.setCurrentTab(0);
+    	  getTabHost().setCurrentTab(0);
     	  
     	  list.setOnItemClickListener(onListClick);    	 
     	  }
@@ -166,7 +163,7 @@ public class LunchListActivity extends Activity {
     			          types.check(R.id.delivery);
     			        }
     			        
-    			        tabs.setCurrentTab(1);
+    			        getTabHost().setCurrentTab(1);
     			    }
     	  };
     	  
@@ -260,26 +257,7 @@ public class LunchListActivity extends Activity {
     		  isActive.set(false);
     	  }
     	  
-    	  @Override
-    	  public void onStart()
-    	  {
-    		  super.onStart();
-    		  
-    		  isActive.set(true);
-    		  
-    		  if(progress>0)
-    		  {
-    			  startWork();
-    		  }
-    	  }
-    	  
-    	  @Override
-    	  public void onStop()
-    	  {
-    		  super.onStart();
-    		  
-    		  isActive.set(false);
-    	  }
+    	 
     	  
     	  @Override
     	  public void onSaveInstanceState(Bundle savedInstanceState)
