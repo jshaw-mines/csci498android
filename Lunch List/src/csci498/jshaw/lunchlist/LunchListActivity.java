@@ -22,12 +22,14 @@ public class LunchListActivity extends TabActivity {
 	EditText note=null;
 	RadioGroup types=null;
 	Restaurant current=null;
+	RestaurantHelper helper;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {   	    
     	  super.onCreate(savedInstanceState);
     	  setContentView(R.layout.main);
     	  
+    	  helper = new RestaurantHelper(this);
     	  Button save=(Button)findViewById(R.id.save);    	    
     	  save.setOnClickListener(onSave);
     	  
@@ -159,4 +161,10 @@ public class LunchListActivity extends TabActivity {
     			    }
     	  };
     	  
+    	  @Override
+    	  public void onDestroy()
+    	  {
+    		  super.onDestroy();
+    		  helper.close();
+    	  }
 }
