@@ -79,6 +79,7 @@ public class LunchListActivity extends TabActivity {
     	          }
     	      
     	      helper.insert(name.getText().toString(), address.getText().toString(), type, note.getText().toString());
+    	      model.requery();
     	    }
     	  };
     	  
