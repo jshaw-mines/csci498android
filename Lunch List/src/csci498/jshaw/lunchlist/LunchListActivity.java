@@ -60,29 +60,21 @@ public class LunchListActivity extends TabActivity {
     
     	private View.OnClickListener onSave=new View.OnClickListener() {
     	    public void onClick(View v) {
-    	      current = new Restaurant();
-    	      EditText name=(EditText)findViewById(R.id.name);
-    	      EditText address=(EditText)findViewById(R.id.addr);
-    	      EditText note=(EditText)findViewById(R.id.notes);
+    	      String type="";
     	      
-    	      current.setName(name.getText().toString());
-    	      current.setAddress(address.getText().toString());
-    	      current.setNote(note.getText().toString());
-    	      
-    	      RadioGroup types=(RadioGroup)findViewById(R.id.types);
     	      switch (types.getCheckedRadioButtonId()) {
     	            case R.id.sit_down:
-    	            	current.setType("sit_down");
-    	              break;
+    	            	type= "sit_down";
+    	            	break;
     	            case R.id.take_out:
-    	            	current.setType("take_out");
-    	              break;
+    	            	type="take_out";
+    	            	break;
     	            case R.id.delivery:
-    	            	current.setType("delivery");
-    	              break;
+    	            	type="delivery";
+    	            	break;
     	          }
     	      
-    	      adapter.add(current);
+    	      helper.insert(name.getText().toString(), address.getText().toString(), type, note.getText().toString());
     	    }
     	  };
     	  
