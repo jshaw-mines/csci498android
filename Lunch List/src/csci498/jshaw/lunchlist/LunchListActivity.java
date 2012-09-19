@@ -22,19 +22,11 @@ public class LunchListActivity extends TabActivity {
 	EditText note=null;
 	RadioGroup types=null;
 	Restaurant current=null;
-	AtomicBoolean isActive= new AtomicBoolean(true);
-	int progress;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {   	    
     	  super.onCreate(savedInstanceState);
-    	  requestWindowFeature(Window.FEATURE_PROGRESS);
     	  setContentView(R.layout.main);
-    	  
-    	  if(progress>0)
-    	  {
-    		  startWork();
-    	  }
     	  
     	  Button save=(Button)findViewById(R.id.save);    	    
     	  save.setOnClickListener(onSave);
@@ -167,109 +159,4 @@ public class LunchListActivity extends TabActivity {
     			    }
     	  };
     	  
-    	  @Override
-    	  public boolean onCreateOptionsMenu(Menu menu) {
-    	    new MenuInflater(this).inflate(R.menu.option, menu);
-    	    
-    	    return(super.onCreateOptionsMenu(menu));
-    	  }
-    	  
-    	  @Override
-    	  public boolean onOptionsItemSelected(MenuItem item) {
-    	    
-    		  if (item.getItemId()==R.id.toast) {
-    	    	String message="No restaurant selected";
-    	    	
-    	    	if (current!=null) {
-    	    		message=current.getNote();
-    	    	}
-    	      
-    	    	Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-    	    	return(true);
-    		  	}
-    		  
-    		  if (item.getItemId()==R.id.long_work)
-    		  {
-    			  startWork();
-    			  
-    			  return(true);
-    		  }
-    			  
-    		  
-    	  return(super.onOptionsItemSelected(item));
-    	  }
-    	  
-    	  private void doSomething(final int incr) {
-    		  runOnUiThread(new Runnable (){
-				@Override
-				public void run() {
-					progress+=incr;
-					setProgress(progress);
-				}
-    			  
-    		  });
-    		  SystemClock.sleep(250);
-    	  }
-    	  
-    	  private Runnable longTask = new Runnable() {
-    		 @Override
-    		  public void run()
-    		 {
-    			  for (int i=0; i<10000 && isActive.get(); i+=200)
-    			  {
-    				  doSomething(200);
-    			  }
-    			  
-    			  if(isActive.get()) {
-    				  runOnUiThread(new Runnable() {
-    	    			 public void run() {
-    	    				 setProgressBarVisibility(false);
-    	    				 progress=0;
-    	    			 }
-    	    		 });}
-    		  }
-    		 };
-    	  
-    	  private void startWork()
-    	  {
-    		  setProgressBarVisibility(true);
-    		  new Thread(longTask).start();
-    	  }
-    	  
-    	  @Override
-    	  public void onResume()
-    	  {
-    		  super.onResume();
-    		  
-    		  isActive.set(true);
-    		  
-    		  if(progress>0)
-    		  {
-    			  startWork();
-    		  }
-    	  }
-    	  
-    	  @Override
-    	  public void onPause()
-    	  {
-    		  super.onPause();
-    		  
-    		  isActive.set(false);
-    	  }
-    	  
-    	 
-    	  
-    	  @Override
-    	  public void onSaveInstanceState(Bundle savedInstanceState)
-    	  {
-    		  super.onSaveInstanceState(savedInstanceState);
-    		  savedInstanceState.putInt("Progress", progress);
-    	  }
-    	  
-    	  @Override
-    	  public void onRestoreInstanceState(Bundle savedInstanceState)
-    	  {
-    		  super.onRestoreInstanceState(savedInstanceState);
-    		  progress = savedInstanceState.getInt("Progress");
-    	  }
 }
