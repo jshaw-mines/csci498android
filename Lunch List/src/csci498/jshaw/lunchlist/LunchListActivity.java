@@ -37,11 +37,7 @@ public class LunchListActivity extends ListActivity {
     	  helper = new RestaurantHelper(this);    	  
     	  
     	  prefs=PreferenceManager.getDefaultSharedPreferences(this);
-    	  model=helper.getAll(prefs.getString("sort_order", "name"));
-    	  startManagingCursor(model);
-    	  adapter = new RestaurantAdapter(model);
-    	  setListAdapter(adapter);
-    	  
+    	  initList();
     	  prefs.registerOnSharedPreferenceChangeListener(prefListener);
     }
     
@@ -142,9 +138,23 @@ public class LunchListActivity extends ListActivity {
 			public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 				if(key.equals("sort_order"))
 				{
-					
+					initList();
 				}
 				
 			}
 		};
+		
+		private void initList()
+		{
+			if(model!=null)
+			{
+				stopManagingCursor(model);
+				model.close();
+			}
+			
+			model=helper.getAll(prefs.getString("sort_order", "name"));
+	    	startManagingCursor(model);
+	    	adapter = new RestaurantAdapter(model);
+	    	setListAdapter(adapter);
+		}
 }
