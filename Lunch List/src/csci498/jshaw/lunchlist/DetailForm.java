@@ -1,6 +1,7 @@
 package csci498.jshaw.lunchlist;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
@@ -28,8 +29,33 @@ public class DetailForm extends Activity {
   		address=(EditText)findViewById(R.id.addr);
   		types=(RadioGroup)findViewById(R.id.types);
   		notes=(EditText)findViewById(R.id.notes);
+  		
+  		if(restaurantId!=null)
+  		{
+  			load();
+  		}
 	}
 	
+	private void load() {
+		Cursor c = helper.getId(restaurantId);
+		
+		c.moveToFirst();
+		name.setText(helper.getName(c));
+		address.setText(helper.getAddress(c));
+		notes.setText(helper.getNotes(c));
+		
+		if (helper.getType(c).equals("sit_down")) {
+			types.check(R.id.sit_down);
+		}
+		else if (helper.getType(c).equals("take_out")) {
+			types.check(R.id.take_out);
+		}
+		else {
+			types.check(R.id.delivery);
+		}
+		c.close();
+	}
+
 	private View.OnClickListener onSave=new View.OnClickListener() {
 	    public void onClick(View v) {
 	    	String type="";
@@ -46,5 +72,12 @@ public class DetailForm extends Activity {
 	            	break;
 	          }
 	    }
-	  };
+	 };
+	  
+	 @Override
+	 public void onDestroy()
+	 {
+		 super.onDestroy();
+		 helper.close();
+	 }
 }

@@ -37,6 +37,8 @@ public class LunchListActivity extends ListActivity {
     	  startManagingCursor(model);
     	  adapter = new RestaurantAdapter(model);
     	  setListAdapter(adapter);
+    	  
+    	  
     	  }
     
 	  
