@@ -11,12 +11,14 @@ public class DetailForm extends Activity {
 	EditText notes=null;
 	RadioGroup types=null;
 	RestaurantHelper helper=null;
+	String restaurantId=null;
 	
 	
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.detail_form);
+		restaurantId=getIntent().getStringExtra(LunchListActivity.ID_EXTRA);
 		
 		helper = new RestaurantHelper(this);
   		Button save=(Button)findViewById(R.id.save);    	    
