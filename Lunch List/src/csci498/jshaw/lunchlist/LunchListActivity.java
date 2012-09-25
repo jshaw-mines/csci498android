@@ -122,6 +122,10 @@ public class LunchListActivity extends ListActivity {
     			  startActivity(new Intent(LunchListActivity.this, DetailForm.class));
     			  return(true);
     		  }
+    		  else (item.getItemId()==R.menu.prefs) {
+    			  startActivity(new Intent(LunchListActivity.this, EditPreferences.class));
+    			  return (true);
+    		  }
     			 
     		  return(super.onOptionsItemSelected(item));
     	  }
