@@ -110,4 +110,23 @@ public class LunchListActivity extends ListActivity {
     		  super.onDestroy();
     		  helper.close();
     	  }
+    	  
+    	  @Override
+    		 public boolean onCreateOptionsMenu(Menu menu)
+    		 {
+    			 new MenuInflater(this).inflate(R.menu.option, menu);
+    			 
+    			 return(super.onCreateOptionsMenu(menu));
+    		 }
+    		 
+    		 @Override
+    		 public boolean onOptionsItemSelected(MenuItem item)
+    		 {
+    			 	if (item.getItemId()==R.id.add) {
+    			 		startActivity(new Intent(LunchListActivity.this, DetailForm.class));
+    			 		return(true);
+    			 	}
+    			 
+    			 	return(super.onOptionsItemSelected(item));
+    		 }
 }
