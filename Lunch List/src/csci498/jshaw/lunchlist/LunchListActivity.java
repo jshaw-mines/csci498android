@@ -12,9 +12,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.view.*;
 import android.widget.*;
 
@@ -25,6 +27,7 @@ public class LunchListActivity extends ListActivity {
 	Restaurant current=null;
 	RestaurantHelper helper;
 	public final static String ID_EXTRA="apt.tutorial._ID";
+	SharedPreferences prefs;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {   	    
@@ -33,7 +36,8 @@ public class LunchListActivity extends ListActivity {
     	  
     	  helper = new RestaurantHelper(this);    	  
     	  
-    	  model=helper.getAll();
+    	  prefs=PreferenceManager.getDefaultSharedPreferences(this);
+    	  model=helper.getAll(prefs.getString("sort_order", "name"));
     	  startManagingCursor(model);
     	  adapter = new RestaurantAdapter(model);
     	  setListAdapter(adapter);
@@ -122,7 +126,7 @@ public class LunchListActivity extends ListActivity {
     			  startActivity(new Intent(LunchListActivity.this, DetailForm.class));
     			  return(true);
     		  }
-    		  else (item.getItemId()==R.menu.prefs) {
+    		  else if (item.getItemId()==R.id.prefs) {
     			  startActivity(new Intent(LunchListActivity.this, EditPreferences.class));
     			  return (true);
     		  }
