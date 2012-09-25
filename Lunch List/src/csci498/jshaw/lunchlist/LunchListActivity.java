@@ -20,28 +20,14 @@ public class LunchListActivity extends TabActivity {
     /** Called when the activity is first created. */
 	Cursor model;
 	RestaurantAdapter adapter=null;
-	EditText name=null;
-	EditText address=null;
-	EditText note=null;
-	RadioGroup types=null;
 	Restaurant current=null;
-	RestaurantHelper helper;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {   	    
     	  super.onCreate(savedInstanceState);
     	  setContentView(R.layout.main);
     	  
-    	  helper = new RestaurantHelper(this);
-    	  Button save=(Button)findViewById(R.id.save);    	    
-    	  save.setOnClickListener(onSave);
-    	  
-    	  ListView list=(ListView)findViewById(R.id.restaurants);
-    	  
-    	  name=(EditText)findViewById(R.id.name);
-    	  address=(EditText)findViewById(R.id.addr);
-    	  types=(RadioGroup)findViewById(R.id.types);
-    	  note=(EditText)findViewById(R.id.notes);
+    	  ListView list=(ListView)findViewById(R.id.restaurants);    	  
     	  
     	  model=helper.getAll();
     	  startManagingCursor(model);
@@ -63,26 +49,7 @@ public class LunchListActivity extends TabActivity {
     	  list.setOnItemClickListener(onListClick);    	 
     	  }
     
-    	private View.OnClickListener onSave=new View.OnClickListener() {
-    	    public void onClick(View v) {
-    	      String type="";
-    	      
-    	      switch (types.getCheckedRadioButtonId()) {
-    	            case R.id.sit_down:
-    	            	type= "sit_down";
-    	            	break;
-    	            case R.id.take_out:
-    	            	type="take_out";
-    	            	break;
-    	            case R.id.delivery:
-    	            	type="delivery";
-    	            	break;
-    	          }
-    	      
-    	      helper.insert(name.getText().toString(), address.getText().toString(), type, note.getText().toString());
-    	      model.requery();
-    	    }
-    	  };
+    	
     	  
     	  class RestaurantAdapter extends CursorAdapter 
     	  {
