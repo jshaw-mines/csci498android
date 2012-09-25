@@ -37,9 +37,7 @@ public class LunchListActivity extends ListActivity {
     	  startManagingCursor(model);
     	  adapter = new RestaurantAdapter(model);
     	  setListAdapter(adapter);
-    	  
-    	  
-    	  }
+    }
     
 	  
     	  class RestaurantAdapter extends CursorAdapter 
@@ -95,14 +93,12 @@ public class LunchListActivity extends ListActivity {
     		  }
     	  }
     	  
-    	  private AdapterView.OnItemClickListener onListClick=new AdapterView.OnItemClickListener() {
-    		  
-    			    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-    			    	Intent i = new Intent(LunchListActivity.this, DetailForm.class);
-    			    	i.putExtra(ID_EXTRA, String.valueOf(id));
-    			    	startActivity(i);
-    			    }
-    	  };
+    	 @Override
+    	 public void onListItemClick(ListView list, View view, int position, long id) {
+    			 Intent i = new Intent(LunchListActivity.this, DetailForm.class);
+    			 i.putExtra(ID_EXTRA, String.valueOf(id));
+    			 startActivity(i);
+    	 }
     	  
     	  @Override
     	  public void onDestroy()
@@ -112,21 +108,21 @@ public class LunchListActivity extends ListActivity {
     	  }
     	  
     	  @Override
-    		 public boolean onCreateOptionsMenu(Menu menu)
-    		 {
+    	  public boolean onCreateOptionsMenu(Menu menu)
+    	  {
     			 new MenuInflater(this).inflate(R.menu.option, menu);
     			 
     			 return(super.onCreateOptionsMenu(menu));
-    		 }
+    	  }
     		 
-    		 @Override
-    		 public boolean onOptionsItemSelected(MenuItem item)
-    		 {
-    			 	if (item.getItemId()==R.id.add) {
-    			 		startActivity(new Intent(LunchListActivity.this, DetailForm.class));
-    			 		return(true);
-    			 	}
+    	  @Override
+    	  public boolean onOptionsItemSelected(MenuItem item)
+    	  {
+    		  if (item.getItemId()==R.id.add) {
+    			  startActivity(new Intent(LunchListActivity.this, DetailForm.class));
+    			  return(true);
+    		  }
     			 
-    			 	return(super.onOptionsItemSelected(item));
-    		 }
+    		  return(super.onOptionsItemSelected(item));
+    	  }
 }
