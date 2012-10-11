@@ -11,6 +11,7 @@ public class DetailForm extends Activity
 	EditText name=null;
 	EditText address=null;
 	EditText notes=null;
+	EditText feed;
 	RadioGroup types=null;
 	RestaurantHelper helper=null;
 	String restaurantId=null;
@@ -30,6 +31,7 @@ public class DetailForm extends Activity
   		address=(EditText)findViewById(R.id.addr);
   		types=(RadioGroup)findViewById(R.id.types);
   		notes=(EditText)findViewById(R.id.notes);
+  		feed=(EditText)findViewById(R.id.feed);
   		
   		if(restaurantId!=null)
   		{
@@ -45,6 +47,7 @@ public class DetailForm extends Activity
 		name.setText(helper.getName(c));
 		address.setText(helper.getAddress(c));
 		notes.setText(helper.getNotes(c));
+		feed.setText(helper.getFeed(c));
 		
 		if (helper.getType(c).equals("sit_down")) 
 		{
@@ -77,6 +80,7 @@ public class DetailForm extends Activity
 		state.putString("address", address.getText().toString());
 		state.putString("notes", notes.getText().toString());
 		state.putInt("type", types.getCheckedRadioButtonId());
+		state.putString("feed", feed.getText().toString());
 	}
 	 
 	 @Override
@@ -88,6 +92,7 @@ public class DetailForm extends Activity
 		 address.setText(state.getString("address"));
 		 notes.setText(state.getString("notes"));
 		 types.check(state.getInt("type"));
+		 feed.setText(state.getString("feed"));
 	 }
 	 
 	 private View.OnClickListener onSave=new View.OnClickListener() 
@@ -113,13 +118,13 @@ public class DetailForm extends Activity
 	    	{
 	    		helper.insert(name.getText().toString(),
 	    		address.getText().toString(), type,
-	    		notes.getText().toString());
+	    		notes.getText().toString(), feed.getText().toString());
 	    	}
 	    	else 
 	    	{
 	    		helper.update(restaurantId, name.getText().toString(),
 	    		address.getText().toString(), type,
-	    		notes.getText().toString());
+	    		notes.getText().toString(), feed.getText().toString());
 	    	}
 	    		
 	    	finish();

@@ -10,11 +10,13 @@
           android:paddingTop="4dip">
 		  <TableRow>
             <TextView android:text="Name:" />
-            <EditText android:id="@+id/name" />
+            <EditText android:id="@+id/name" 
+                android:layout_span="2"/>
           </TableRow>
           <TableRow>
             <TextView android:text="Address:" />
-            <EditText android:id="@+id/addr" />
+            <EditText android:id="@+id/addr" 
+                android:layout_span="2"/>
           </TableRow>
           <TableRow>
             <TextView android:text="Type:" />
@@ -37,6 +39,8 @@
 			  android:scrollHorizontally="false"
 			  android:maxLines="2"/>
           </TableRow>
+          <EditText android:id="@+id/feed"
+				    android:hint="Feed URL"/>
           <Button android:id="@+id/save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
