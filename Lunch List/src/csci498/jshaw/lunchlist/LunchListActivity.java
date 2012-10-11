@@ -157,4 +157,6 @@ public class LunchListActivity extends ListActivity {
 	    	adapter = new RestaurantAdapter(model);
 	    	setListAdapter(adapter);
 		}
+		
+		
 }

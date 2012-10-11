@@ -6,7 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 
-public class DetailForm extends Activity {
+public class DetailForm extends Activity 
+{
 	EditText name=null;
 	EditText address=null;
 	EditText notes=null;
@@ -36,7 +37,8 @@ public class DetailForm extends Activity {
   		}
 	}
 	
-	private void load() {
+	private void load() 
+	{
 		Cursor c = helper.getId(restaurantId);
 		
 		c.moveToFirst();
@@ -44,23 +46,58 @@ public class DetailForm extends Activity {
 		address.setText(helper.getAddress(c));
 		notes.setText(helper.getNotes(c));
 		
-		if (helper.getType(c).equals("sit_down")) {
+		if (helper.getType(c).equals("sit_down")) 
+		{
 			types.check(R.id.sit_down);
 		}
-		else if (helper.getType(c).equals("take_out")) {
+		else if (helper.getType(c).equals("take_out")) 
+		{
 			types.check(R.id.take_out);
 		}
-		else {
+		else 
+		{
 			types.check(R.id.delivery);
 		}
 		c.close();
 	}
-
-	private View.OnClickListener onSave=new View.OnClickListener() {
-	    public void onClick(View v) {
+	
+	@Override
+	public void onDestroy()
+	{
+		 super.onDestroy();
+		 helper.close();
+	}
+	 
+	@Override
+	public void onSaveInstanceState(Bundle state)
+	{
+		super.onSaveInstanceState(state);
+		
+		state.putString("name", name.getText().toString());
+		state.putString("address", address.getText().toString());
+		state.putString("notes", notes.getText().toString());
+		state.putInt("type", types.getCheckedRadioButtonId());
+	}
+	 
+	 @Override
+	 public void onRestoreInstanceState(Bundle state)
+	 {
+		 super.onRestoreInstanceState(state);
+		 
+		 name.setText(state.getString("name"));
+		 address.setText(state.getString("address"));
+		 notes.setText(state.getString("notes"));
+		 types.check(state.getInt("type"));
+	 }
+	 
+	 private View.OnClickListener onSave=new View.OnClickListener() 
+	 {
+	    public void onClick(View v) 
+	    {
 	    	String type="";
 	      
-	    	switch (types.getCheckedRadioButtonId()) {
+	    	switch (types.getCheckedRadioButtonId()) 
+	    	{
 	            case R.id.sit_down:
 	            	type= "sit_down";
 	            	break;
@@ -72,12 +109,14 @@ public class DetailForm extends Activity {
 	            	break;
 	          }
 	    	
-	    	if (restaurantId==null) {
+	    	if (restaurantId==null) 
+	    	{
 	    		helper.insert(name.getText().toString(),
 	    		address.getText().toString(), type,
 	    		notes.getText().toString());
 	    	}
-	    	else {
+	    	else 
+	    	{
 	    		helper.update(restaurantId, name.getText().toString(),
 	    		address.getText().toString(), type,
 	    		notes.getText().toString());
@@ -86,11 +125,4 @@ public class DetailForm extends Activity {
 	    	finish();
 	    }
 	 };
-	  
-	 @Override
-	 public void onDestroy()
-	 {
-		 super.onDestroy();
-		 helper.close();
-	 }
 }
