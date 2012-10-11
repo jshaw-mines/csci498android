@@ -3,6 +3,8 @@ package csci498.jshaw.lunchlist;
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.*;
 
@@ -130,4 +132,11 @@ public class DetailForm extends Activity
 	    	finish();
 	    }
 	 };
+	 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		new MenuInflater(this).inflate(R.menu.detail_options, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
 }
