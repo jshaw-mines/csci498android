@@ -14,8 +14,8 @@ public class FeedService extends IntentService {
 	public static final String EXTRA_URL="apt.tutorial.EXTRA_URL";
 	public static final String EXTRA_MESSENGER="apt.tutorial.EXTRA_MESSENGER";
 	
-	public FeedService(String name) {
-		super(name);
+	public FeedService() {
+		super("Feed Service");
 	}
 
 	@Override
