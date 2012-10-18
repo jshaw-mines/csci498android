@@ -60,7 +60,7 @@ public class DetailForm extends Activity
 		address.setText(helper.getAddress(c));
 		notes.setText(helper.getNotes(c));
 		feed.setText(helper.getFeed(c));
-		location.setText(String.valueOf(helper.getLat(c))+" "+String.valueOf(helper.getAddress(c)));
+		location.setText(String.valueOf(helper.getLat(c))+", "+String.valueOf(helper.getLon(c)));
 		
 		if (helper.getType(c).equals("sit_down")) 
 		{
@@ -149,6 +149,17 @@ public class DetailForm extends Activity
 		mgr.removeUpdates(onLocationChange);
 		super.onPause();
 	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu)
+	{
+		if(restaurantId==null)
+		{
+			menu.findItem(R.id.location).setEnabled(false);
+		}
+		
+		return super.onPrepareOptionsMenu(menu);
+	}
 	 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
@@ -195,7 +206,7 @@ public class DetailForm extends Activity
 		@Override
 		public void onLocationChanged(Location loc) {
 			helper.updateLocation(restaurantId, loc.getLatitude(), loc.getLongitude());
-			location.setText(String.valueOf(loc.getLatitude())+" "+String.valueOf(loc.getLongitude()));
+			location.setText(String.valueOf(loc.getLatitude())+", "+String.valueOf(loc.getLongitude()));
 			mgr.removeUpdates(onLocationChange);
 			
 			Toast.makeText(DetailForm.this, "Location Updated", Toast.LENGTH_SHORT).show();
