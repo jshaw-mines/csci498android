@@ -1,10 +1,14 @@
 package csci498.jshaw.lunchlist;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 
@@ -138,5 +142,33 @@ public class DetailForm extends Activity
 	{
 		new MenuInflater(this).inflate(R.menu.detail_options, menu);
 		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		if(item.getItemId()==R.id.feed)
+		{
+			if(networkAvailable())
+			{
+				Intent i = new Intent(this, FeedActivity.class);
+				i.putExtra("feed", item.getTitle());
+				startActivity(i);
+			}
+			else
+			{
+				Toast.makeText(this, "Network unavailable", Toast.LENGTH_SHORT).show();
+			}
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	private boolean networkAvailable() {
+		
+		ConnectivityManager cm = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
+		NetworkInfo info = cm.getActiveNetworkInfo();
+		
+		return (info!=null);
 	}
 }
