@@ -30,8 +30,6 @@ public class DetailForm extends Activity
 		restaurantId=getIntent().getStringExtra(LunchListActivity.ID_EXTRA);
 		
 		helper = new RestaurantHelper(this);
-  		Button save=(Button)findViewById(R.id.save);    	    
-  		save.setOnClickListener(onSave);
   		
   		name=(EditText)findViewById(R.id.name);
   		address=(EditText)findViewById(R.id.addr);
@@ -101,10 +99,10 @@ public class DetailForm extends Activity
 		 feed.setText(state.getString("feed"));
 	 }
 	 
-	 private View.OnClickListener onSave=new View.OnClickListener() 
+	 private void save() 
 	 {
-	    public void onClick(View v) 
-	    {
+		if(name.getText().toString().length()>0)
+		{	
 	    	String type="";
 	      
 	    	switch (types.getCheckedRadioButtonId()) 
@@ -132,10 +130,16 @@ public class DetailForm extends Activity
 	    		address.getText().toString(), type,
 	    		notes.getText().toString(), feed.getText().toString());
 	    	}
-	    		
-	    	finish();
-	    }
-	 };
+		}
+	 }
+	 
+	@Override
+	public void onPause()
+	{
+		save();
+		
+		super.onPause();
+	}
 	 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
@@ -163,7 +167,7 @@ public class DetailForm extends Activity
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
+	
 	private boolean networkAvailable() {
 		
 		ConnectivityManager cm = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
