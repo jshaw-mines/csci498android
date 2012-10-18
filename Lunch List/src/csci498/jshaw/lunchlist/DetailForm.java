@@ -3,6 +3,9 @@ package csci498.jshaw.lunchlist;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -14,13 +17,15 @@ import android.widget.*;
 
 public class DetailForm extends Activity 
 {
-	EditText name=null;
-	EditText address=null;
-	EditText notes=null;
+	EditText name;
+	EditText address;
+	EditText notes;
 	EditText feed;
-	RadioGroup types=null;
-	RestaurantHelper helper=null;
-	String restaurantId=null;
+	TextView location;
+	RadioGroup types;
+	RestaurantHelper helper;
+	String restaurantId;
+	LocationManager mgr;
 	
 	
 	public void onCreate(Bundle savedInstanceState)
@@ -36,6 +41,9 @@ public class DetailForm extends Activity
   		types=(RadioGroup)findViewById(R.id.types);
   		notes=(EditText)findViewById(R.id.notes);
   		feed=(EditText)findViewById(R.id.feed);
+  		location=(TextView)findViewById(R.id.location);
+  		
+  		mgr = (LocationManager)getSystemService(LOCATION_SERVICE);
   		
   		if(restaurantId!=null)
   		{
@@ -52,6 +60,7 @@ public class DetailForm extends Activity
 		address.setText(helper.getAddress(c));
 		notes.setText(helper.getNotes(c));
 		feed.setText(helper.getFeed(c));
+		location.setText(String.valueOf(helper.getLat(c))+" "+String.valueOf(helper.getAddress(c)));
 		
 		if (helper.getType(c).equals("sit_down")) 
 		{
@@ -137,7 +146,7 @@ public class DetailForm extends Activity
 	public void onPause()
 	{
 		save();
-		
+		mgr.removeUpdates(onLocationChange);
 		super.onPause();
 	}
 	 
@@ -165,6 +174,10 @@ public class DetailForm extends Activity
 			}
 			return true;
 		}
+		if(item.getItemId()==R.id.location)
+		{
+			mgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, onLocationChange);
+		}
 		return super.onOptionsItemSelected(item);
 	}
 	
@@ -175,4 +188,36 @@ public class DetailForm extends Activity
 		
 		return (info!=null);
 	}
+	
+	LocationListener onLocationChange = new LocationListener()
+	{
+
+		@Override
+		public void onLocationChanged(Location loc) {
+			helper.updateLocation(restaurantId, loc.getLatitude(), loc.getLongitude());
+			location.setText(String.valueOf(loc.getLatitude())+" "+String.valueOf(loc.getLongitude()));
+			mgr.removeUpdates(onLocationChange);
+			
+			Toast.makeText(DetailForm.this, "Location Updated", Toast.LENGTH_SHORT).show();
+		}
+
+		@Override
+		public void onProviderDisabled(String provider) {
+			// not implemented
+			
+		}
+
+		@Override
+		public void onProviderEnabled(String provider) {
+			// not implemented
+			
+		}
+
+		@Override
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+			// not implemented
+			
+		}
+		
+	};
 }
