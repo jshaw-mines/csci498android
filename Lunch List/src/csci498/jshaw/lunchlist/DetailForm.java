@@ -186,9 +186,18 @@ public class DetailForm extends Activity
 			}
 			return true;
 		}
-		if(item.getItemId()==R.id.location)
+		else if(item.getItemId()==R.id.location)
 		{
 			mgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, onLocationChange);
+			
+			return true;
+		}
+		else if(item.getItemId()==R.id.map)
+		{
+			Intent i = new Intent(DetailForm.this, RestaurantMap.class);
+			startActivity(i);
+			
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
