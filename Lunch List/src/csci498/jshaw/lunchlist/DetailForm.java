@@ -26,6 +26,8 @@ public class DetailForm extends Activity
 	RestaurantHelper helper;
 	String restaurantId;
 	LocationManager mgr;
+	double latitude=0.0d;
+	double longitude=0.0d;
 	
 	
 	public void onCreate(Bundle savedInstanceState)
@@ -60,7 +62,6 @@ public class DetailForm extends Activity
 		address.setText(helper.getAddress(c));
 		notes.setText(helper.getNotes(c));
 		feed.setText(helper.getFeed(c));
-		location.setText(String.valueOf(helper.getLat(c))+", "+String.valueOf(helper.getLon(c)));
 		
 		if (helper.getType(c).equals("sit_down")) 
 		{
@@ -74,6 +75,11 @@ public class DetailForm extends Activity
 		{
 			types.check(R.id.delivery);
 		}
+		
+		latitude = helper.getLat(c);
+		longitude = helper.getLon(c);
+		location.setText(String.valueOf(latitude)+", "+String.valueOf(longitude));
+		
 		c.close();
 	}
 	
@@ -195,6 +201,11 @@ public class DetailForm extends Activity
 		else if(item.getItemId()==R.id.map)
 		{
 			Intent i = new Intent(DetailForm.this, RestaurantMap.class);
+			
+			i.putExtra(RestaurantMap.EXTRA_LATITUDE, latitude);
+			i.putExtra(RestaurantMap.EXTRA_LONGITUDE, longitude);
+			i.putExtra(RestaurantMap.EXTRA_NAME, name.getText().toString());
+			
 			startActivity(i);
 			
 			return true;
