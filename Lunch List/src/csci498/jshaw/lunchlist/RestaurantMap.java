@@ -40,7 +40,7 @@ public class RestaurantMap extends MapActivity {
 		
 		marker.setBounds(0, 0, marker.getIntrinsicWidth(), marker.getIntrinsicHeight());
 		
-		map.getOverlays().add(new RestaurantOverlay(maker, status, getIntent().getStringExtra(EXTRA_NAME)));
+		map.getOverlays().add(new RestaurantOverlay(marker, status, getIntent().getStringExtra(EXTRA_NAME)));
 	}
 	
 	@Override
@@ -61,7 +61,7 @@ public class RestaurantMap extends MapActivity {
 			
 			item = new OverlayItem(point, name, name);
 			
-			poplulate();	
+			populate();	
 		}
 		
 		@Override
