@@ -37,7 +37,8 @@ public class TimePreferences extends DialogPreference {
 	@Override
 	protected View onCreateDialogView()
 	{
-		return new TimePicker(this.getContext());
+		picker = new TimePicker(getContext());
+		return picker;
 	}
 	
 	@Override

@@ -13,7 +13,13 @@
 	<csci498.jshaw.lunchlist.TimePreferences
 	    android:key="alarm_time"
 	    android:title="Lunch Alarm Time"
-	    android:default_value="12:00"
+	    android:defaultValue="12:00"
 	    android:summary="Choose when to be notified it is time for lunch"
+	    android:dependency="alarm"/>
+	<CheckBoxPreference
+	    android:key="use_notification"
+	    android:title="Use Notifications"
+	    android:defaultValue="true"
+	    android:summary="Check if you want a status bar icon when it is lunchtime"
 	    android:dependency="alarm"/>
 </PreferenceScreen>
